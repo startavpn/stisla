@@ -122,6 +122,11 @@ function compileToHTML() {
   return _compileToHTML(htmlDir + htmlPathPattern, null, false, true);
 }
 
+function copyNodeModules() {
+  return src("node_modules/**/*", { base: "node_modules" })
+    .pipe(dest("../../public/node_modules"));
+}
+
 function watching() {
   compileToSCSS();
   compileToHTML();
@@ -166,6 +171,7 @@ function watching() {
 Object.assign(exports, {
   image,
   scripts,
+  vendor: copyNodeModules,
   scss: compileToSCSS,
   html: compileToHTML,
   dist: parallel(compileToSCSS, compileToHTML, scripts, image),
