@@ -1,6 +1,3 @@
-/**
- * Imports
- */
 const { src, dest, watch, parallel } = require("gulp");
 const browserSync = require("browser-sync").create();
 const sass = require("gulp-sass")(require("sass"));
@@ -16,13 +13,12 @@ const nodePath = require("path");
 
 /**
  * Configuration
- * @type {String}
  */
-let cssDir = "assets/css",
-  jsDir = "assets/js",
+let cssDir = "../../public/assets/css",
+  jsDir = "../../public/assets/js",
   htmlDir = "src/pages",
   scssDir = "src/scss",
-  imgDir = "assets/img";
+  imgDir = "../../public/assets/img";
 
 let jsPathPattern = "/**/*.js",
   htmlPathPattern = "/**/*.html",
@@ -33,42 +29,33 @@ let jsPathPattern = "/**/*.js",
  * Helpers
  */
 function _compileToHTML(path, onEnd, log = true, ret = false) {
-  if (log)
-    _log("[HTML] Compiling: " + path, "GREEN");
+  if (log) _log("[HTML] Compiling: " + path, "GREEN");
 
   let compileToHTML = src(path, { base: htmlDir })
     .pipe(plumber())
-    .pipe(nunjucks.compile({
-        version: "2.3.0",
-        site_name: "Stisla"
-      },
-      /**
-       * Nunjucks options
-       */
-      {
-        trimBlocks: true,
-        lstripBlocks: true,
-        /**
-         * Nunjucks filters
-         * @type {Object}
-         */
-        filters: {
-          is_active: (str, reg, page) => {
-            reg = new RegExp(reg, "gm");
-            reg = reg.exec(page);
-            if (reg != null) {
-              return str;
+    .pipe(
+      nunjucks.compile(
+        {
+          version: "2.3.0",
+          site_name: "Stisla"
+        },
+        {
+          trimBlocks: true,
+          lstripBlocks: true,
+          filters: {
+            is_active: (str, reg, page) => {
+              reg = new RegExp(reg, "gm");
+              reg = reg.exec(page);
+              if (reg != null) return str;
             }
           }
         }
-      }))
+      )
+    )
     .on("error", console.error.bind(console))
     .on("end", () => {
-      if (onEnd)
-        onEnd.call(this);
-
-      if (log)
-        _log("[HTML] Finished", "GREEN");
+      if (onEnd) onEnd.call(this);
+      if (log) _log("[HTML] Finished", "GREEN");
     })
     .pipe(dest("pages"))
     .pipe(plumber.stop());
@@ -77,26 +64,26 @@ function _compileToHTML(path, onEnd, log = true, ret = false) {
 }
 
 function _compileToSCSS(path, onEnd, log = true, ret = false) {
-  if (log)
-    _log("[SCSS] Compiling:" + path, "GREEN");
+  if (log) _log("[SCSS] Compiling:" + path, "GREEN");
 
   let compileToSCSS = src(path)
     .pipe(plumber())
-    .pipe(sass({
-      errorLogToConsole: true
-    }))
+    .pipe(
+      sass({
+        errorLogToConsole: true
+      })
+    )
     .on("error", console.error.bind(console))
     .on("end", () => {
-      if (onEnd)
-        onEnd.call(this);
-
-      if (log)
-        _log("[SCSS] Finished", "GREEN");
+      if (onEnd) onEnd.call(this);
+      if (log) _log("[SCSS] Finished", "GREEN");
     })
-    .pipe(rename({
-      dirname: "",
-      extname: ".css"
-    }))
+    .pipe(
+      rename({
+        dirname: "",
+        extname: ".css"
+      })
+    )
     .pipe(postcss([autoprefixer()]))
     .pipe(dest(cssDir))
     .pipe(plumber.stop());
@@ -110,26 +97,19 @@ function _log(str, clr) {
 }
 
 /**
- * End of helper
+ * Tasks
  */
-
-/**
- * Execution
- */
-function folder() {
-  return src("*.*", { read: false })
-    .pipe(dest("../../public/assets"))
-    .pipe(dest("../../public/assets/css"))
-    .pipe(dest("../../public/assets/js"))
-    .pipe(dest("../../public/assets/img"));
+function scripts() {
+  return src("assets/js" + jsPathPattern)
+    .pipe(plumber())
+    .pipe(dest(jsDir))
+    .pipe(plumber.stop());
 }
 
 function image() {
-  return src(imgDir + imgPathPattern)
+  return src("assets/img" + imgPathPattern)
     .pipe(plumber())
-    .pipe(imagemin([
-      imageminMozjpeg({ quality: 80 })
-    ]))
+    .pipe(imagemin([imageminMozjpeg({ quality: 80 })]))
     .pipe(dest(imgDir))
     .pipe(plumber.stop());
 }
@@ -145,11 +125,9 @@ function compileToHTML() {
 function watching() {
   compileToSCSS();
   compileToHTML();
+  scripts();
+  image();
 
-  /**
-   * BrowserSync initialization
-   * @type {Object}
-   */
   browserSync.init({
     server: {
       baseDir: "./"
@@ -158,44 +136,38 @@ function watching() {
     port: 8080
   });
 
-  /**
-   * Watch ${htmlDir}
-   */
-  watch([
-    htmlDir + htmlPathPattern,
-    scssDir + scssPathPattern,
-    jsDir + jsPathPattern,
-    imgDir + imgPathPattern
-  ]).on("change", (file) => {
+  watch(
+    [htmlDir + htmlPathPattern, scssDir + scssPathPattern, "assets/js" + jsPathPattern, "assets/img" + imgPathPattern]
+  ).on("change", (file) => {
     file = file.replace(/\\/g, nodePath.sep);
 
     if (file.indexOf(".scss") > -1) {
-      _compileToSCSS(scssDir + scssPathPattern, () => {
-        return browserSync.reload();
-      });
+      _compileToSCSS(scssDir + scssPathPattern, () => browserSync.reload());
     }
 
     if (file.indexOf("layouts") > -1 && file.indexOf(".html") > -1) {
-      _compileToHTML(htmlDir + htmlPathPattern, () => {
-        return browserSync.reload();
-      });
+      _compileToHTML(htmlDir + htmlPathPattern, () => browserSync.reload());
     } else if (file.indexOf(".html") > -1) {
-      _compileToHTML(file, () => {
-        return browserSync.reload();
-      });
+      _compileToHTML(file, () => browserSync.reload());
     }
 
-    if (file.indexOf(jsDir) > -1 || file.indexOf(imgDir) > -1) {
-      return browserSync.reload();
+    if (file.indexOf("assets/js") > -1) {
+      scripts();
+      browserSync.reload();
+    }
+
+    if (file.indexOf("assets/img") > -1) {
+      image();
+      browserSync.reload();
     }
   });
 }
 
 Object.assign(exports, {
-  folder,
   image,
+  scripts,
   scss: compileToSCSS,
   html: compileToHTML,
-  dist: parallel(folder, compileToSCSS, compileToHTML),
+  dist: parallel(compileToSCSS, compileToHTML, scripts, image),
   default: watching
 });
