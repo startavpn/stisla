@@ -1,5 +1,6 @@
 .nav-tabs .nav-item .nav-link {
   color: color(primary);
+
   &.active {
     color: #000;
   }
@@ -21,18 +22,22 @@
     color: #fff;
     background-color: color(primary);
   }
+
   .nav-item .nav-link {
     color: color(primary);
     padding-left: 15px !important;
     padding-right: 15px !important;
+
     &:hover {
-      background-color: color_lighten(primary, 31%);
+      background-color: color_lighten(primary, 55%);
     }
+
     &.active {
       @include button-shadow(primary);
       color: #fff;
       background-color: color(primary);
     }
+
     .badge {
       padding: 5px 8px;
       margin-left: 5px;
