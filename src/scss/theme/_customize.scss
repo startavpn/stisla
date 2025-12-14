@@ -353,3 +353,8 @@
 .gap-2 {
   gap: 0.5rem !important;
 }
+
+// Fix for service page stats card icon positioning
+.card.card-statistic-1 .card-icon {
+  line-height: 80px !important;
+}
