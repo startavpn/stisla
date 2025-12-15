@@ -358,3 +358,25 @@
 .card.card-statistic-1 .card-icon {
   line-height: 80px !important;
 }
+
+// Fix for empty state icon alignment and visibility
+// Using Flexbox to center the icon and forcing inheritance to respect inline styles
+.empty-state .empty-state-icon {
+  margin-left: auto !important;
+  margin-right: auto !important;
+  width: auto !important;
+  height: auto !important;
+  background-color: transparent !important;
+  box-shadow: none !important;
+
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  i {
+    color: inherit !important;
+    font-size: inherit !important;
+    position: static !important;
+    margin: 0 !important;
+  }
+}
