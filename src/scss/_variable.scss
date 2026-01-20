@@ -1,26 +1,42 @@
 $colors: (
-        primary: #303b90,
-        secondary: #cdd3d8,
-        success: #47c363,
-        info: #3abaf4,
-        warning: #ffa426,
-        danger: #fc544b,
-        light: #e3eaef,
-        grey: #868e96,
-        whitesmoke: #f7f9f9,
-        dark: #191d21,
-        muted: #98a6ad,
-        body: #f4f6f9,
-        font: #6c757d,
-        fontdark: #34395e,
-        white: #ffffff,
-  // Form Control
-        formcontrol_normal_background: #fdfdff,
-        formcontrol_normal_border: #e4e6fc,
-        formcontrol_focus_background: #fefeff,
-        formcontrol_focus_border: #95a0f4,
-  // Utilities
-        section_title_line: #6777ef,
+      primary: #2B303A,
+      // Brand primary dark
+      secondary: #7284A8,
+      // Brand blue-gray
+      success: #47c363,
+      // Keep success green
+      info: #3abaf4,
+      // Keep info blue
+      warning: #ffa426,
+      // Keep warning orange
+      danger: #9F2042,
+      // Use brand red for danger
+      light: #FCFCFC,
+      // Brand light color
+      grey: #7284A8,
+      // Use secondary for grey
+      whitesmoke: #FCFCFC,
+      // Brand light for whitesmoke
+      dark: #102B3F,
+      // Brand darker blue
+      muted: #7284A8,
+      // Use secondary for muted
+      body: #f4f6f9,
+      // Keep body background
+      font: #6c757d,
+      // Keep font color
+      fontdark: #2B303A,
+      // Use brand primary for dark font
+      white: #ffffff,
+      // Form Control
+      formcontrol_normal_background: #fdfdff,
+      formcontrol_normal_border: #e4e6fc,
+      formcontrol_focus_background: #fefeff,
+      formcontrol_focus_border: #2B303A,
+      // Brand primary for focus
+      // Utilities
+      section_title_line: #2B303A,
+      // Brand primary for section title
 );
 
 $font_family: 'Roboto', 'Segoe UI', arial;
@@ -28,10 +44,8 @@ $font_weight: 400;
 $font_size: 14px;
 
 $grid-breakpoints: (
-        xs: 0,
-        sm: 576px,
-        md: 768px,
-        lg: 992px,
-        xl: 1200px
-) !default;
-
+      xs: 0,
+      sm: 576px,
+      md: 768px,
+      lg: 992px,
+      xl: 1200px) !default;
