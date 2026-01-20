@@ -14,11 +14,11 @@ const nodePath = require("path");
 /**
  * Configuration
  */
-let cssDir = "../../public/assets/css",
-  jsDir = "../../public/assets/js",
+let cssDir = nodePath.resolve(__dirname, "../../public/assets/css"),
+  jsDir = nodePath.resolve(__dirname, "../../public/assets/js"),
   htmlDir = "src/pages",
   scssDir = "src/scss",
-  imgDir = "../../public/assets/img";
+  imgDir = nodePath.resolve(__dirname, "../../public/assets/img");
 
 let jsPathPattern = "/**/*.js",
   htmlPathPattern = "/**/*.html",
