@@ -106,8 +106,91 @@
 }
 
 // ========================================
-// DigitalOcean Enhanced UI Styles
+// Server Deployment UI Styles
 // ========================================
+
+// ── Protocol / Option Selector ──────────────
+.protocol-selector {
+  display: flex;
+  gap: 10px;
+}
+
+.protocol-option {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border: 2px solid #e3e6f0;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background: #fff;
+  margin-bottom: 0;
+
+  &:hover {
+    border-color: #6777ef;
+    background: #f8f9ff;
+  }
+
+  &.active {
+    border-color: #6777ef;
+    background: linear-gradient(135deg, #f5f7ff 0%, #eaedff 100%);
+    box-shadow: 0 2px 8px rgba(103, 119, 239, 0.2);
+
+    .protocol-icon {
+      color: #6777ef;
+    }
+
+    .protocol-name {
+      color: #4c5bbf;
+    }
+  }
+
+  .protocol-icon {
+    color: #adb5bd;
+    flex-shrink: 0;
+    transition: color 0.2s;
+  }
+
+  .protocol-name {
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 1.2;
+  }
+
+  .protocol-desc {
+    font-size: 12px;
+    color: #9aa0ac;
+    line-height: 1.2;
+    margin-top: 2px;
+  }
+}
+
+// ── Selected Plan Summary ────────────────────
+.selected-plan-summary {
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: 8px;
+  padding: 12px 16px;
+}
+
+// ── Datacenter Selection ─────────────────────
+.datacenter-selection {
+  background: #f8f9fa;
+  border-radius: 8px;
+  padding: 20px;
+}
+
+// ========================================
+
+// Region Selected Indicator
+.region-selected-indicator {
+  position: absolute;
+  top: 6px;
+  right: 8px;
+  font-size: 16px;
+}
 
 // Region Card Enhancements
 .region-card {
@@ -321,6 +404,14 @@
 
   .server-spec-card {
     padding: 15px;
+  }
+
+  .protocol-selector {
+    flex-direction: column;
+  }
+
+  .protocol-option {
+    padding: 10px 12px;
   }
 }
 
